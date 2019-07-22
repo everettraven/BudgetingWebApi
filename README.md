@@ -10,7 +10,7 @@ Goals of this project:
 
 The following will describe the API url interactions, the format of json data to be sent by the request, and the json responses.
 
-<APINAME>/register
+APINAME/register
 
 JSON Request Body
 
@@ -37,7 +37,7 @@ With "spendingLimit"
 ```
 
 
-<APINAME>/auth
+APINAME/auth
 
 This API endpoint will return a JWT to be used by the service using the API in order to authorize actions as a user. They will expire after a certain amount of time and will need to be refreshed.
 
@@ -64,16 +64,22 @@ Example JSON Response
 
 Documentation & Code to work on:
 
-<APINAME>/auth/refresh
+APINAME/auth/refresh
 
 
-<APINAME>/categories - GET all for a user
-<APINAME>/categories/add - POST to add for a user
-<APINAME>/expenses - GET all for a user
-<APINAME>/expenses/add  - POST to add for a user
-<APINAME>/expenses/update - POST to update for a user
-<APINAME>/categories/update - POST to update for a user
-<APINAME>/user - Accept GET and POST to get and modify information on a user
+APINAME/categories - GET all for a user
+
+APINAME/categories/add - POST to add for a user
+
+APINAME/expenses - GET all for a user
+
+APINAME/expenses/add  - POST to add for a user
+
+APINAME/expenses/update - POST to update for a user
+
+APINAME/categories/update - POST to update for a user
+
+APINAME/user - Accept GET and POST to get and modify information on a user
 
 Ideas for future API Endpoints:
 
