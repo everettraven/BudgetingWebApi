@@ -1,0 +1,8 @@
+version: "3"
+services:
+  budgetingapi:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "5000:80"
