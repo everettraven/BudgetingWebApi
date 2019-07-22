@@ -1,6 +1,6 @@
 This is a REST Web Api developed by Bryce Palmer using Python and the Flask microframework to be used for a budgeting application.
 
-##Goals of this project:
+## Goals of this project:
 1. Improve understanding of Python
 2. Improve working knowledge of Web APIs and their interactions
 3. Create a REST API to run an actual service
@@ -62,7 +62,7 @@ Example JSON Response
 ```
 
 
-##Documentation & Code to work on:
+## Documentation & Code to work on:
 
     1. APINAME/auth/refresh
 
@@ -80,6 +80,6 @@ Example JSON Response
 
     8. APINAME/user - Accept GET and POST to get and modify information on a user
 
-##Ideas for future API Endpoints:
+## Ideas for future API Endpoints:
 
 OAuth2.0?
