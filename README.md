@@ -64,21 +64,19 @@ Example JSON Response
 
 ## Documentation & Code to work on:
 
-    1. APINAME/auth/refresh
+    1. APINAME/auth/refresh - POST to refresh the access token being used for a user <-- Coded
 
-    2. APINAME/categories - GET all for a user
+    2. APINAME/categories - GET all for the current user <-- Coded
 
-    3. APINAME/categories/add - POST to add for a user
+    3. APINAME/categories/add - POST to add a new category for a user <-- Coded
 
-    4. APINAME/expenses - GET all for a user
+    4. APINAME/categories/update - POST to update a category for a user <-- Coded
 
-    5. APINAME/expenses/add  - POST to add for a user
+    5. APINAME/categories/id/expenses - GET to get all the expenses from a specific category
 
-    6. APINAME/expenses/update - POST to update for a user
+    6. APINAME/categories/id/expenses/add  - POST to add a new expense for a category
 
-    7. APINAME/categories/update - POST to update for a user
-
-    8. APINAME/user - Accept GET and POST to get and modify information on a user
+    7. APINAME/user - Accept GET and POST to get and modify information on a user
 
 ## Ideas for future API Endpoints:
 

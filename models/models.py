@@ -18,6 +18,8 @@ class User(db.Model):
     #table relationship to the categories table
     categories = db.relationship('Category', backref='user', lazy=True)
 
+    codes = db.relationship('AuthCode', backref='user', lazy=True)
+
     #initialization function
     def __init__(self, username, password):
         self.username = username
@@ -27,6 +29,9 @@ class User(db.Model):
     def add_category(self, Category):
         self.categories.append(Category)
     
+    def add_code(self, AuthCode):
+        self.codes.append(AuthCode)
+    
     def change_spending_limit(self, value):
         self.spendingLimit = value
     
@@ -35,9 +40,8 @@ class User(db.Model):
         return{
                 "id": self.id,
                 "username": self.username,
-                "spendingLimit": self.spendingLimit,
-                "categories": [e.serialize() for e in self.categories]
-        }
+                "spendingLimit": self.spendingLimit
+            }
 
 #Create the Category class and db model
 class Category(db.Model):
@@ -64,9 +68,7 @@ class Category(db.Model):
     def serialize(self):
         return{
             "id": self.id,
-            "name": self.name,
-            "expenses": [e.serialize() for e in self.expenses]
-            
+            "name": self.name            
         }
 
 #Expense class and db model
@@ -106,4 +108,55 @@ class Expense(db.Model):
 
         }         
 
+class Developer(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200))
+    client_id = db.Column(db.String(200))
+    client_secret = db.Column(db.String(200))
+    redirect_uri = db.Column(db.String)
+
+    def __init__(self, name, redirect_uri):
+        self.name = name
+        self.redirect_uri = redirect_uri
+    
+    def generate_id(self):
+        alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        temp = ""
+        for i in range(len(alphabet)):
+            temp += alphabet[random.randint(0, len(alphabet)-1)] + str(i)
+        self.client_id = temp
+    
+    def generate_secret(self):
+        alphabet = "abcdefghijklmnopqrstuvwxyz"
+        temp = ""
+        for i in range(len(alphabet)):
+            temp += alphabet[random.randint(0, len(alphabet)-1)] + str(i)
+        self.client_secret = temp
+    
+    def serialize(self):
+        return{
+            "name": self.name,
+            "client_id": self.client_id,
+            "client_secret": self.client_secret,
+            "redirect_uri": self.redirect_uri
+        }
+            
+
+class AuthCode(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+    code = db.Column(db.String(200))
+    code_used = db.Column(db.Boolean)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __init__(self):
+        values = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+        temp = ""
+        for i in range(len(values)):
+            temp += values[random.randint(0, len(values)-1)] + str(i)
+        self.code = temp
+        self.code_used = False
+    
         
