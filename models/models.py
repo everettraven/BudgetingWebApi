@@ -13,8 +13,8 @@ class User(db.Model):
     username = db.Column(db.String(200))
     password = db.Column(db.String(200))
     spendingLimit = db.Column(db.Float)
-    #Add A Saving Goal When I Get WiFi again
-    
+    spent = db.Column(db.Float)
+
     #table relationship to the categories table
     categories = db.relationship('Category', backref='user', lazy=True)
 
@@ -35,12 +35,17 @@ class User(db.Model):
     def change_spending_limit(self, value):
         self.spendingLimit = value
     
+    def add_to_spent(self, value):
+        self.spent = self.spent + value
+    
     #function to serialize the objectinto a JSON object
     def serialize(self):
         return{
                 "id": self.id,
                 "username": self.username,
-                "spendingLimit": self.spendingLimit
+                "spendingLimit": self.spendingLimit,
+                "spent": self.spent,
+                "categories": [e.serialize for e in self.categories]
             }
 
 #Create the Category class and db model
@@ -68,7 +73,8 @@ class Category(db.Model):
     def serialize(self):
         return{
             "id": self.id,
-            "name": self.name            
+            "name": self.name,
+            "expenses": [e.serialize for e in self.expenses]          
         }
 
 #Expense class and db model
@@ -108,18 +114,21 @@ class Expense(db.Model):
 
         }         
 
+# Create a class that will be used to create a developer with a client_id and client_secret
 class Developer(db.Model):
-
+    # Set up the database columns
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200))
     client_id = db.Column(db.String(200))
     client_secret = db.Column(db.String(200))
     redirect_uri = db.Column(db.String)
 
+    #setup the initializer
     def __init__(self, name, redirect_uri):
         self.name = name
         self.redirect_uri = redirect_uri
     
+    #generate a client_id for a new developer
     def generate_id(self):
         alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         temp = ""
@@ -127,6 +136,7 @@ class Developer(db.Model):
             temp += alphabet[random.randint(0, len(alphabet)-1)] + str(i)
         self.client_id = temp
     
+    #generate a client_secret for a new developer
     def generate_secret(self):
         alphabet = "abcdefghijklmnopqrstuvwxyz"
         temp = ""
@@ -134,6 +144,7 @@ class Developer(db.Model):
             temp += alphabet[random.randint(0, len(alphabet)-1)] + str(i)
         self.client_secret = temp
     
+    # Serialize it into a JSON object to return for when a new developer is created 
     def serialize(self):
         return{
             "name": self.name,
@@ -143,14 +154,16 @@ class Developer(db.Model):
         }
             
 
+# Create an AuthCode table to store the Authorization Codes that have been created for a user.
 class AuthCode(db.Model):
-
+    # Set up the database columns
     id = db.Column(db.Integer, primary_key=True)
     code = db.Column(db.String(200))
     code_used = db.Column(db.Boolean)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+    # initializer to create a new auth code for a user
     def __init__(self):
         values = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
         temp = ""
