@@ -410,6 +410,8 @@ def add_expense(cat_id):
             if i.id == int(cat_id):
                 i.add_expense(new_exp)
 
+        user_to_update.add_to_spent(new_exp.amount)
+
         db.session.commit()
     
     else:
