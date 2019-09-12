@@ -24,6 +24,8 @@ class User(db.Model):
     def __init__(self, username, password):
         self.username = username
         self.password = password
+        self.spendingLimit = 0
+        self.spent = 0
     
     #function to add a category for the user
     def add_category(self, Category):
