@@ -287,7 +287,7 @@ def add_category():
 
     updated_user = User.query.filter(User.id == current_user).first()
 
-    return jsonify([updated_user.serialize()]), 200
+    return jsonify(updated_user.serialize()), 200
     
 #Create the /categories/update route
 @app.route("/user/categories/<cat_id>/update", methods=['POST'])

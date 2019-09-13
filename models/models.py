@@ -47,7 +47,7 @@ class User(db.Model):
                 "username": self.username,
                 "spendingLimit": self.spendingLimit,
                 "spent": self.spent,
-                "categories": [e.serialize for e in self.categories]
+                "categories": [e.serialize() for e in self.categories]
             }
 
 #Create the Category class and db model
@@ -76,7 +76,7 @@ class Category(db.Model):
         return{
             "id": self.id,
             "name": self.name,
-            "expenses": [e.serialize for e in self.expenses]          
+            "expenses": [e.serialize() for e in self.expenses]          
         }
 
 #Expense class and db model
