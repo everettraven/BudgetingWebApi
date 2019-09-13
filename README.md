@@ -11,11 +11,11 @@ This is a REST Web Api developed by Bryce Palmer using Python and the Flask micr
 
 
 ## Documentation & Code to work on:
-    1. APINAME/user/auth - generate an access token and refresh token <---- Coded
+    1. APINAME/user/auth - generate an access token and refresh token <-- Coded  <-- Tests Created
 
-    2. APINAME/user/categories & APINAME/user/categories/id - GET all for the current user <-- Coded
+    2. APINAME/user/categories & APINAME/user/categories/id - GET all/specific for the current user <-- Coded <-- Tests Created
 
-    3. APINAME/user/categories/add - POST to add a new category for a user <-- Coded
+    3. APINAME/user/categories/add - POST to add a new category for a user <-- Coded <-- Test Created
 
     4. APINAME/user/categories/id/update - POST to update a category for a user <-- Coded
 
@@ -25,11 +25,11 @@ This is a REST Web Api developed by Bryce Palmer using Python and the Flask micr
 
     7. APINAME/user - Accept GET and POST to get and modify information on a user <-- Coded
     
-    8. APINAME/user/register - Registers a new user <-- Coded
+    8. APINAME/user/register - Registers a new user <-- Coded <-- Test Created
 
-    9. APINAME/developer/register - Register a new developer that can leverage the API <-- Coded
+    9. APINAME/developer/register - Register a new developer that can leverage the API <-- Coded <-- Test Created
 
-    10. APINAME/user/login - Login on behalf of a user <-- Coded
+    10. APINAME/user/login - Login on behalf of a user <-- Coded <-- Test Created
 
     11. APINAME/user/categories/id/expenses/id/update <-- Coded
 
