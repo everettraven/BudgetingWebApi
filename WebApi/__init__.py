@@ -359,7 +359,7 @@ def get_expenses(cat_id):
 
     for i in categories:
         if i.id == int(cat_id):
-            return jsonify([e.serialize() for e in i.expenses]), 200
+            return jsonify(expenses=[e.serialize() for e in i.expenses]), 200
     
 
 # Add an expense to a category
@@ -420,7 +420,7 @@ def add_expense(cat_id):
     # Return the new user data
     get_user = User.query.filter(User.id == current_user).first()
 
-    return jsonify([get_user.serialize()]), 200
+    return jsonify(get_user.serialize()), 200
     
 @app.route("/user/categories/expenses/<expense_id>/update", methods=['POST'])
 @jwt_required
@@ -454,6 +454,7 @@ def edit_expense(expense_id):
         expense_update.description = data["description"]
 
     if "amount" in data:
+        before = expense_update.amount
         expense_update.amount = data["amount"]
 
     if "location" in data:
@@ -466,8 +467,10 @@ def edit_expense(expense_id):
     
     # return the new user data
     get_user = User.query.filter(User.id == current_user).first()
+    get_user.spent += expense_update.amount - before
+    db.session.commit()
 
-    return jsonify([get_user.serialize()]), 200
+    return jsonify(get_user.serialize()), 200
 
 
 #Create a user route. Will allow get to get user info and will allow updating user info
@@ -496,7 +499,7 @@ def user_info():
 
         get_user = User.query.filter(User.id == current_user).first()
 
-        return jsonify([get_user.serialize()]), 200
+        return jsonify(get_user.serialize()), 200
 
     else:
         
@@ -516,7 +519,35 @@ def user_info():
 
         get_user = User.query.filter(User.id == current_user).first()
 
-        return jsonify([get_user.serialize()]), 200
+        return jsonify(get_user.serialize()), 200
+
+# Delete all the test users and their data.
+@app.route("/cleanup_tests", methods=['POST'])
+def testcleanup():
+    test_users = ["ExpUpdateTester", "ExpGetMultTester", "ExpGetTester", "ExpAddTester", "CatUpdateTester", "CatGetIdTester", "CatGetMultTester", "CatGetTester", "CatAddTester", "AuthRefreshTester", "AuthCodeTester",  "Tester", "Testing", "UserGetTester", "UserPostTester"]
+    if not request.json:
+        return jsonify(msg="JSON must be sent"), 400
+    
+    data = request.json
+
+    if "passphrase" in data:
+        if data["passphrase"] == "TestingRocks!":
+            for i in range(len(test_users)):
+                user = User.query.filter(User.username == test_users[i]).first()
+
+                db.session.delete(user)
+                db.session.commit()
+
+            developer = Developer.query.filter(Developer.name == "TestDeveloper").first()
+            db.session.delete(developer)
+            db.session.commit()
+
+            return jsonify(msg="Successfully removed all test users"), 200
+        else:
+            return jsonify(msg="Wrong passphrase"), 400
+    else:
+        return jsonify(msg="You must provide the passphrase for access to this function"), 400
+        
 
             
 
